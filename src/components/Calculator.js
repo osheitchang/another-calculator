@@ -19,10 +19,32 @@ function Calculator({ children }) {
     [0, ".", "="],
   ];
 
-
-  function numClickHandler() {
-     
+  function numClickHandler(e) {
+    e.preventDefault();
+    const value = e.target.innerHtml;
+    if (calc.num.length < 16) {
+      setCalc({
+        ...calc,
+        num:
+          calc.number === 0 && value === "0"
+            ? 0
+            : calc.num % 1 === 0
+            ? Number(calc.num + value)
+            : calc.num + value,
+        res: !calc.sign ? 0 : calc.res,
+      });
+    }
   }
+
+  const commaClickHandler = (e) => {
+    e.preventDefault();
+    const value = e.target.innerHtml;
+
+    setCalc({
+      ...calc,
+      num: !calc.num.toString().includes(".") ? calc.num + value : calc.num,
+    });
+  };
 
   return (
     <div className="calculator">
@@ -35,7 +57,7 @@ function Calculator({ children }) {
               key={i}
               className={btn === "=" ? "equals" : ""}
               value={btn}
-              onClick= {
+              onClick={
                 btn === "C"
                   ? resetClickHandler
                   : btn === "+-"
@@ -50,9 +72,8 @@ function Calculator({ children }) {
                   ? commaClickHandler
                   : numClickHandler
               }
- 
             />
-          )
+          );
         })}
       </ButtonBox>
     </div>
