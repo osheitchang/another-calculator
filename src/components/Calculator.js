@@ -22,9 +22,7 @@ function Calculator({ children }) {
   function numClickHandler(e) {
     e.preventDefault();
     const value = e.target.innerHTML;
-    console.log(value)
-    console.log(toString(calc.num).length)
-    if (true) {
+    if (calc.num.toString().length < 16) {
       setCalc({
         ...calc,
         num:
@@ -50,17 +48,19 @@ function Calculator({ children }) {
 
   const signClickHandler = (e) => {
     e.preventDefault();
-    const value = e.target.innerHtml;
+    const value = e.target.innerHTML;
     setCalc({
       ...calc,
       sign: value,
       res: !calc.res && calc.num ? calc.num : calc.res,
       num: 0,
     });
+    console.log(calc.sign)
   };
 
   const equalClickHandler = (e) => {
     if (calc.sign && calc.num) {
+      console.log("It's a hit")
       const math = (a, b, sign) =>
         sign === "+"
           ? a + b
@@ -77,7 +77,7 @@ function Calculator({ children }) {
             ? "Can't devide by 0"
             : math(Number(calc.res), Number(calc.num), calc.sign),
         sign: "",
-        num: "0",
+        num: "",
       });
     }
   };
@@ -103,7 +103,7 @@ function Calculator({ children }) {
     });
   };
 
-  const resetClickHandler = (e)=> {
+  const resetClickHandler = (e) => {
     setCalc({
       ...calc,
       sign: "",
@@ -111,13 +111,12 @@ function Calculator({ children }) {
       res: 0,
     });
   };
-  
+
   //Add spaces for the Thousand Mark
   const toLocaleString = (num) =>
-  String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
+    String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
   //Remove the spaces of the Thousand mark
   const removeSpaces = (num) => num.toString().replace(/\s/g, "");
-
 
   return (
     <div className="calculator">
