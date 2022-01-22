@@ -5,7 +5,10 @@ function Login() {
     return (
         <div>
             <form>
-                
+                <input className = "text">
+                    
+                </input>
+
             </form>
         </div>
     )
